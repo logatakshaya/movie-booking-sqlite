@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Movie Ticket Booking System</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #111;
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    color: #ffcc00;
+}
+
+.movie {
+    background: #222;
+    padding: 15px;
+    margin: 10px;
+    display: inline-block;
+    border-radius: 10px;
+}
+
+button {
+    padding: 10px;
+    background: #ffcc00;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+#bookingBox {
+    display: none;
+    background: #333;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+table {
+    margin: auto;
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 80%;
+}
+
+th, td {
+    border: 1px solid #555;
+    padding: 10px;
+}
+
+th {
+    background: #ffcc00;
+    color: black;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🎬 Movie Ticket Booking System</h1>
+
+<div class="movie">
+    <h3>Leo</h3>
+    <button onclick="book('Leo')">Book Now</button>
+</div>
+
+<div class="movie">
+    <h3>Jailer</h3>
+    <button onclick="book('Jailer')">Book Now</button>
+</div>
+
+<div class="movie">
+    <h3>Avatar</h3>
+    <button onclick="book('Avatar')">Book Now</button>
+</div>
+
+<div id="bookingBox">
+    <h2 id="movieName"></h2>
+
+    <input type="text" id="customer" placeholder="Customer Name"><br><br>
+    <input type="text" id="theater" placeholder="Theater Name"><br><br>
+    <input type="number" id="seat" placeholder="Seat Number"><br><br>
+
+    <button onclick="confirmBooking()">Confirm Booking</button>
+</div>
+
+<h2>📋 Booking List</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Movie</th>
+            <th>Customer</th>
+            <th>Theater</th>
+            <th>Seat</th>
+        </tr>
+    </thead>
+    <tbody id="bookingTable"></tbody>
+</table>
+
+<script>
+let selectedMovie = "";
+let bookingId = 1000;
+
+// 🔥 Example bookings (3–4 samples)
+let bookings = [
+    {id: 1001, movie: "Leo", customer: "Arun", theater: "PVR Chennai", seat: 12},
+    {id: 1002, movie: "Jailer", customer: "Priya", theater: "AGS Madurai", seat: 5},
+    {id: 1003, movie: "Avatar", customer: "Kumar", theater: "Sathyam Cinema", seat: 18},
+    {id: 1004, movie: "Leo", customer: "Divya", theater: "INOX Trichy", seat: 7}
+];
+
+function showTable() {
+    let table = document.getElementById("bookingTable");
+    table.innerHTML = "";
+
+    bookings.forEach(b => {
+        table.innerHTML += `
+            <tr>
+                <td>${b.id}</td>
+                <td>${b.movie}</td>
+                <td>${b.customer}</td>
+                <td>${b.theater}</td>
+                <td>${b.seat}</td>
+            </tr>
+        `;
+    });
+}
+
+function book(movie) {
+    selectedMovie = movie;
+    document.getElementById("movieName").innerText = "Booking for " + movie;
+    document.getElementById("bookingBox").style.display = "block";
+}
+
+function confirmBooking() {
+    let customer = document.getElementById("customer").value;
+    let theater = document.getElementById("theater").value;
+    let seat = document.getElementById("seat").value;
+
+    if(customer === "" || theater === "" || seat === "") {
+        alert("Please fill all details");
+        return;
+    }
+
+    bookingId++;
+
+    bookings.push({
+        id: bookingId,
+        movie: selectedMovie,
+        customer: customer,
+        theater: theater,
+        seat: seat
+    });
+
+    alert("🎟 Booking Confirmed! ID: " + bookingId);
+
+    document.getElementById("bookingBox").style.display = "none";
+
+    showTable();
+}
+
+// load initial data
+showTable();
+</script>
+
+</body>
+</html>
